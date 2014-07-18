@@ -1,0 +1,19 @@
+<project>
+    <target name = "hello">
+        <echo>Ant build file (build.xml)</echo>
+    </target>
+    <target name="testbutton">
+        <!-- you may override this on the command line:
+             ant -Dtestcase=com/oreilly/javaxp/junit/TestGame junit2 -->
+        <property name="testcase"
+            value="com/gradle/test/TestHello"/>
+
+        <junit fork="false">
+            <classpath refid="classpath.project"/>
+            <formatter type="plain" usefile="false"/>
+
+            <test name="${testcase}"/>
+        </junit>
+    </target>
+    <testcase classname="com.gradle.test.TestHello" name="testHello" time="0.016" />
+</project>

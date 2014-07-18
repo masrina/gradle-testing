@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+apply plugin: 'project-report'
+ant.importBuild('build.xml')
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
+    testBuildType "debug"
+    defaultConfig {
+        applicationId 'com.ipropertymobile.gradletesting'
+        minSdkVersion 19
+        targetSdkVersion 20
+        versionCode 1
+        versionName '1.0'
+        testApplicationId 'com.gradle.test'
+        testInstrumentationRunner 'com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner'
+        testHandleProfiling false
+        buildConfigField "String", "TEST_SIZE", project.hasProperty('testSize') ? "\"${testSize}\"" : "null"
+        buildConfigField "boolean", "DEFAULT", "true"
+        buildConfigField "String", "FOO", "\"foo\""
+    }
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            buildConfigField "String", "FOO", "\"bar\""
+        }
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+    }
+    packagingOptions{
+        exclude 'LICENSE.txt'
+    }
+    lintOptions{
+        abortOnError false
+    }
+}
+sourceSets{
+    androidTest{
+        java.srcDir file('src/androidTest/java/')
+    }
+    unitTest{
+        java.srcDir file('src/androidTest/java/')
+        resources.srcDir file('src/androidTest/res')
+    }
+}
+
+//configurations {
+//    unitTestCompile.extendsFrom runtime
+//    unitTestRuntime.extendsFrom unitTestCompile
+//}
+//
+dependencies {
+//    unitTestCompile files("$project.buildDir/classes/release")
+//    unitTestCompile 'junit:junit:+'
+    androidTestCompile files("$project.buildDir/classes/release")
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+task integrationTest(type: Test, dependsOn: assemble){
+    testClassesDir = project.sourceSets.androidTest.output.classesDir
+    classpath = project.sourceSets.androidTest.runtimeClasspath
+    include '**/AllUITest'
+}
+//
+//task unitTest(type: Test, dependsOn: assemble){
+//    description = "Run test"
+//    testClassesDir = project.sourceSets.unitTest.output.classesDir
+//    classpath = project.sourceSets.unitTest.runtimeClasspath
+//
+//}
+//
+//check.dependsOn unitTest
+
+task gradleintro (dependsOn: hello){
+    println 'Hello, from Gradle'
+}
