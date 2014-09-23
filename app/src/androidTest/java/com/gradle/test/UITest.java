@@ -24,6 +24,7 @@ public class UITest extends ActivityInstrumentationTestCase2<MyActivity>{
     @LargeTest
     public void testUI() throws InterruptedException {
         onView(withText("Hello world!")).check(matches(isDisplayed()));
+        onView(withText("Bye")).check(matches(isDisplayed);
         Thread.sleep(2000);
     }
     public void tearDown(){
