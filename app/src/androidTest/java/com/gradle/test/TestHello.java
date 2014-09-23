@@ -32,6 +32,7 @@ public class TestHello extends ActivityInstrumentationTestCase2<MyActivity> {
         onView(withId(R.id.button)).check(matches(isDisplayed()));
         onView(withId(R.id.button)).perform(click());
         Thread.sleep(2000);
+        onView(withId(R.id.button)).perform(click());
     }
     public void tearDown(){
         getActivity().finish();
